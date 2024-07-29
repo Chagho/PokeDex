@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: 'Mukta',sans-serif;
+    font-size: 62.5%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    max-width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+    margin-bottom: 8rem;
+}
+
+.logo-container img {
+    height: 18rem;
+}
+
+.search-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8rem;
+}
+
+.search-bar {
+    height: 4rem;
+    width: 45rem;
+    padding: 1rem;
+    font-size: 2rem;
+    border: 1px solid gray;
+    border-right: none;
+}
+
+.search-bar::placeholder {
+    font-size: 2rem;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.search-btn {
+    height: 4rem;
+    width: 6rem;
+    font-size: 4rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    border-left: none;
+    cursor: pointer;
+    background-color: #fe8a0a;
+}
+
+.search-btn:active {
+    transform: scale(0.95);
+}
+
+.pokedex-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 3rem;
+
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 4rem;
+
+}
+
+.pokemon-container {
+    width: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: 0 0rem 10rem rgb(0, 0, 0 , 0.1);
+    border-radius: 1rem;
+    height: 36rem;
+    transition: all .4s ease;
+    cursor: pointer;
+}
+
+.pokemon-container:hover {
+    transform: scale(1.1);
+}
+
+.img-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-container img {
+    width: 70%;
+}
+
+.poke-name {
+    font-size: 3rem;
+}
+
+.id,.gender,.type {
+    font-size: 2rem;
+}
