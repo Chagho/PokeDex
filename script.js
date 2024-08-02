@@ -1,61 +1,68 @@
-async function fetchData(id) {
+async function fetchGenderData() {
+    const [genderResponseMale, genderResponseFemale, genderResponseGenderless] = await Promise.all([
+        fetch(`https://pokeapi.co/api/v2/gender/1`),
+        fetch(`https://pokeapi.co/api/v2/gender/2`),
+        fetch(`https://pokeapi.co/api/v2/gender/3`)
+    ]);
+
+    const [genderMale, genderFemale, genderGenderless] = await Promise.all([
+        genderResponseMale.json(),
+        genderResponseFemale.json(),
+        genderResponseGenderless.json()
+    ]);
+
+    return { genderMale, genderFemale, genderGenderless };
+}
+
+async function fetchData(id, genderData) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const data = await response.json();
 
-    const genderResponseMale = await fetch(`https://pokeapi.co/api/v2/gender/1`);
-    const genderMale = await genderResponseMale.json();
-    
-    const genderResponseFemale = await fetch(`https://pokeapi.co/api/v2/gender/2`);
-    const genderFemale = await genderResponseFemale.json();
-    
-    const genderResponseGenderless = await fetch(`https://pokeapi.co/api/v2/gender/3`);
-    const genderGenderless = await genderResponseGenderless.json();
-
     let gender = "unknown";
-    const Male = genderMale.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
-    const Female = genderFemale.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
-    const Genderless = genderGenderless.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
+    const Male = genderData.genderMale.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
+    const Female = genderData.genderFemale.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
+    const Genderless = genderData.genderGenderless.pokemon_species_details.some(p => p.pokemon_species.name === data.name);
 
     if (Male && Female) {
-      gender = "Male/Female";
+        gender = "Male/Female";
     } else if (Male) {
-      gender = "Male";
+        gender = "Male";
     } else if (Female) {
-      gender = "Female";
+        gender = "Female";
     } else if (Genderless) {
-      gender = "Genderless";
+        gender = "Genderless";
     }
-
 
     const pokeInfo = {
         name: capitalizeFirstLetter(data.name),
         id: data.id,
         type: capitalizeFirstLetter(data.types[0].type.name),
         gender: gender
-    }
-    
+    };
 
-    console.log(data)
     createPoke(pokeInfo);
-
-
 }
+
 const pokemonNumber = 150;
 
 async function pokeNum() {
-    for(let i = 1 ;i<=pokemonNumber;  i++){
-        await fetchData(i);
+    const genderData = await fetchGenderData();
+
+    const fetchPromises = [];
+    for (let i = 1; i <= pokemonNumber; i++) {
+        fetchPromises.push(fetchData(i, genderData));
     }
+
+    await Promise.all(fetchPromises);
 }
 
-
 function createPoke(pokeInfo) {
-    const container = document.querySelector('.pokedex-container')
-    const poke = document.createElement('div')
+    const container = document.querySelector('.pokedex-container');
+    const poke = document.createElement('div');
 
-    poke.classList.add('pokemon-container')
+    poke.classList.add('pokemon-container');
 
-    const idImg = (pokeInfo.id).toString().padStart(3,'0');
+    const idImg = (pokeInfo.id).toString().padStart(3, '0');
 
     poke.innerHTML = `
         <div class="img-container">
@@ -72,20 +79,7 @@ function createPoke(pokeInfo) {
 
 function capitalizeFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
-  }
-
-
-function findPoke(name) {
-    const findValue = document.querySelector('.search-bar').value;
-
-    if(findValue !== name) (
-        document.querySelectorAll('.pokemon-container').forEach(poke => {
-            poke.style.display = 'none'
-        })
-    )
-
 }
-
 
 function findPoke() {
     const findValue = document.querySelector('.search-bar').value.toLowerCase();
@@ -101,15 +95,14 @@ function findPoke() {
     });
 }
 
-
 function enterFind(e) {
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
         findPoke();
     }
 }
 
-
-document.querySelector('.search-btn').addEventListener('click',findPoke)
+document.querySelector('.search-btn').addEventListener('click', findPoke);
 document.querySelector('.search-bar').addEventListener('keydown', enterFind);
 
 pokeNum();
+
