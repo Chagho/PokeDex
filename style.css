@@ -126,11 +126,37 @@ body {
         width: 30rem;
     }
 
+    .search-form {
+        transform: translateX(-1rem);
+    }
+    .search-btn {
+        width: 4rem;
+    }
+    .logo-container img {
+        width: 33rem;
+    }
+
+    .pokemon-container {
+        transform: scale(0.8);
+    }
+}
+
+
+@media only screen and (max-width: 360px) {
+    .search-bar {
+        width: 25rem;
+        margin-left: 2rem;
+    }
+
     .logo-container img {
         height: 15rem;
     }
 
     .pokemon-container {
-        transform: scale(0.9);
+        transform: scale(0.8);
+    }
+
+    .pokemon-container:hover {
+        transform: scale(0.95);
     }
 }
