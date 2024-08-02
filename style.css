@@ -120,3 +120,17 @@ body {
 .id,.gender,.type {
     font-size: 2rem;
 }
+
+@media only screen and (max-width: 500px) {
+    .search-bar {
+        width: 30rem;
+    }
+
+    .logo-container img {
+        height: 15rem;
+    }
+
+    .pokemon-container {
+        transform: scale(0.9);
+    }
+}
